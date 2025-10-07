@@ -31,10 +31,20 @@ def filter_users_by_age_range(min_age, max_age):
         print(user)
 
 
+def filter_users_by_email(email):
+    with open("users.json", "r") as file:
+        users = json.load(file)
+
+    filtered_users = [user for user in users if email.lower() in user["email"].lower()]
+
+    for user in filtered_users:
+        print(user)
+
+
 if __name__ == "__main__":
     filter_option = (
         input(
-            "What would you like to filter by? (Options: 'name', 'age', 'age_range'): "
+            "What would you like to filter by? (Options: 'name', 'age', 'age_range', 'email'): "
         )
         .strip()
         .lower()
@@ -59,7 +69,12 @@ if __name__ == "__main__":
                 filter_users_by_age_range(min_age, max_age)
         except ValueError:
             print("Please enter valid ages (numbers).")
+    elif filter_option == "email":
+        email_to_search = input(
+            "Enter an email or part of an email to filter users: "
+        ).strip()
+        filter_users_by_email(email_to_search)
     else:
         print(
-            "Filtering by that option is not supported. Please choose from: 'name', 'age', 'age_range'"
+            "Filtering by that option is not supported. Please choose from: 'name', 'age', 'age_range', 'email'"
         )
